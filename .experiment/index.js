@@ -33,7 +33,7 @@ class Topic {
 
     moveTodo(source, todoIndex) {
         // Retrieve todo
-        const todo = source.toDoCollection.filter(
+        const todo = source.toDoCollection.find(
             (item, index) => index === todoIndex
         );
         // Add todo to this topic
