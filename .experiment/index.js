@@ -72,27 +72,23 @@ const todo1 = new Todo(
 )
 
 const todo2 = new Todo(
-    "Create a science thingamajig",
-    "A thingmajig to do amazing things!",
+    "Task 2",
+    "Description 2!",
     new Date(2025, 3, 8),
     Priority.High,
     [
         new Subtask("Buy green goo"),
         new Subtask("Acquire laser beam"),
-        new Subtask("Assemble remote control"),
-        new Subtask("Put it all together"),
     ]
 )
 
 const todo3 = new Todo(
-    "Create a science thingamajig",
-    "A thingmajig to do amazing things!",
+    "Task 3",
+    "Description 3!",
     new Date(2025, 3, 8),
     Priority.High,
     [
         new Subtask("Buy green goo"),
-        new Subtask("Acquire laser beam"),
-        new Subtask("Assemble remote control"),
         new Subtask("Put it all together"),
     ]
 )
@@ -107,6 +103,7 @@ const scienceTopic = new Topic(
     "Science",
     "My science projects"
 )
+
 /* Save data */
 const STORAGE_KEY = "data"
 localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic, scienceTopic]));
@@ -119,12 +116,14 @@ for(const dryTopic of dryData) {
     const topic = new Topic(dryTopic.title, dryTopic.description);
 
     for(const dryTodo of dryTopic.toDoCollection) {
-        const todo = new Todo({
-            ...dryTodo,
-            dueDate: new Date(dryTodo.dueDate),
-            priority: Priority.hydrate(dryTodo.priority),
-            subtasks: dryTodo.subtasks.map( subtask => new Subtask({...subtask}))
-        })
+
+        const todo = new Todo(
+            dryTodo.title,
+            dryTodo.description,
+            new Date(dryTodo.dueDate),
+            Priority.hydrate(dryTodo.priority),
+            dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone))
+        )
         topic.addToCollection(todo);
     }
 
