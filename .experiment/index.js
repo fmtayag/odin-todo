@@ -26,6 +26,23 @@ class Topic {
     addToCollection(todo) {
         this.toDoCollection.push(todo);
     }
+
+    removeTodo(todoIndex) {
+        this.toDoCollection.splice(todoIndex, 1);
+    }
+
+    moveTodo(source, todoIndex) {
+        // Retrieve todo
+        const todo = source.toDoCollection.filter(
+            (item, index) => index === todoIndex
+        );
+        // Add todo to this topic
+        this.addToCollection(todo);
+        
+        // Remove todo from source topic 
+        source.removeTodo(todoIndex);
+
+    }
 }
 
 class Priority {
@@ -126,8 +143,10 @@ for(const dryTopic of dryData) {
         )
         topic.addToCollection(todo);
     }
-
+    
     myObjects.push(topic);
 }
+
+myObjects[1].moveTodo(myObjects[0], 0);
 
 console.log(myObjects);
