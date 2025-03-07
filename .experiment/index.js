@@ -10,7 +10,7 @@ class Todo {
 }
 
 class Subtask {
-    constructor(description, isDone) {
+    constructor(description, isDone=false) {
         this.description = description;
         this.isDone = isDone;
     }
@@ -43,3 +43,4 @@ class Priority {
         return this.#_HIGH;
     }
 }
+
