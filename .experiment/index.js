@@ -41,7 +41,6 @@ class Topic {
         
         // Remove todo from source topic 
         source.removeTodo(todoIndex);
-
     }
 }
 
@@ -127,7 +126,7 @@ localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic, scienceTopic]));
 
 /* Load data */
 const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-const myObjects = [];
+const myTopics = {};
 
 for(const dryTopic of dryData) {
     const topic = new Topic(dryTopic.title, dryTopic.description);
@@ -143,10 +142,10 @@ for(const dryTopic of dryData) {
         )
         topic.addToCollection(todo);
     }
-    
-    myObjects.push(topic);
+
+    myTopics[topic.title] = topic;
 }
 
-myObjects[1].moveTodo(myObjects[0], 0);
+myTopics["Science"].moveTodo(myTopics["General"], 0);
 
-console.log(myObjects);
+console.log(myTopics);
