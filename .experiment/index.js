@@ -17,10 +17,14 @@ class Subtask {
 }
 
 class Topic {
-    constructor(title, description, toDoCollection) {
+    constructor(title, description, toDoCollection=[]) {
         this.title = title;
         this.description = description;
         this.toDoCollection = toDoCollection;
+    }
+
+    addToCollection(todo) {
+        this.toDoCollection.push(todo);
     }
 }
 
@@ -42,5 +46,89 @@ class Priority {
     static get High() {
         return this.#_HIGH;
     }
+    static hydrate(value) {
+        switch(value) {
+            default:
+            case 0: return this.#_NONE;
+            case 1: return this.#_LOW;
+            case 2: return this.#_MED;
+            case 3: return this.#_HIGH;
+        }
+    }
 }
 
+
+const todo1 = new Todo(
+    "Create a science thingamajig",
+    "A thingmajig to do amazing things!",
+    new Date(2025, 3, 8),
+    Priority.High,
+    [
+        new Subtask("Buy green goo"),
+        new Subtask("Acquire laser beam"),
+        new Subtask("Assemble remote control"),
+        new Subtask("Put it all together"),
+    ]
+)
+
+const todo2 = new Todo(
+    "Create a science thingamajig",
+    "A thingmajig to do amazing things!",
+    new Date(2025, 3, 8),
+    Priority.High,
+    [
+        new Subtask("Buy green goo"),
+        new Subtask("Acquire laser beam"),
+        new Subtask("Assemble remote control"),
+        new Subtask("Put it all together"),
+    ]
+)
+
+const todo3 = new Todo(
+    "Create a science thingamajig",
+    "A thingmajig to do amazing things!",
+    new Date(2025, 3, 8),
+    Priority.High,
+    [
+        new Subtask("Buy green goo"),
+        new Subtask("Acquire laser beam"),
+        new Subtask("Assemble remote control"),
+        new Subtask("Put it all together"),
+    ]
+)
+
+const generalTopic = new Topic(
+    "General",
+    "These to-dos are uncategorized",
+    [todo1, todo2, todo3]
+)
+
+const scienceTopic = new Topic(
+    "Science",
+    "My science projects"
+)
+/* Save data */
+const STORAGE_KEY = "data"
+localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic, scienceTopic]));
+
+/* Load data */
+const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+const myObjects = [];
+
+for(const dryTopic of dryData) {
+    const topic = new Topic(dryTopic.title, dryTopic.description);
+
+    for(const dryTodo of dryTopic.toDoCollection) {
+        const todo = new Todo({
+            ...dryTodo,
+            dueDate: new Date(dryTodo.dueDate),
+            priority: Priority.hydrate(dryTodo.priority),
+            subtasks: dryTodo.subtasks.map( subtask => new Subtask({...subtask}))
+        })
+        topic.addToCollection(todo);
+    }
+
+    myObjects.push(topic);
+}
+
+console.log(myObjects);
