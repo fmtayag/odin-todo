@@ -1,0 +1,51 @@
+User stories
+As a layman user, I can...
+    To-Dos
+    - Create a new to-do so that I can keep track of my tasks 
+    - Edit the title, and description so that I can update my task with new info
+    - Mark the to-do as complete so that I can track my progress 
+    - Set a due date on the to-do so that I don't miss deadlines 
+    - Set a priority on the to-do so that I can focus on the most important tasks first 
+    - Add sub-tasks so that I can break-down larger tasks into more manageable steps 
+    - Delete the to-do so I can clear already completed or irrelevant to-dos 
+
+    Topic
+    - Create topics so that I can organize my to-dos 
+    - Assign a to-do to a topic so that I can track tasks related to different areas of work, or life
+    - Add a short description so that I know what kind of to-dos belong to it
+    - Update the name of a topic so that I can correct mistakes or refine its meaning 
+    - Delete a topic so that I can remove already finished or irrelevant categories 
+
+Things: 
+    > To-Do - helps the user in keeping track of their tasks. 
+    It has a title, description, due date, priority, and sub-tasks.
+    It can also be marked as completed.
+
+    > Topic - is used to organize and categorize a list of To-Dos. 
+    It has a title, and a list of To-Dos.
+
+Data Model:
+    > To-Do: 
+        - Title: text 
+        - Description: text 
+        - Due date: date 
+        - Priority: Enumeration (High, Med, Low, No Priority)
+        - Sub-tasks: Array of sub-tasks 
+        - Is Done: boolean
+
+    > Sub-task: 
+        - Description: text 
+        - Is Done: boolean
+
+    > Topic: 
+        - Title: text 
+        - Description: text  
+        - To-Do list: Array of To-Dos 
+
+Data Relationships:
+    A to-do can contain many sub-tasks, but a sub-task can only be assigned to one to-do 
+    A topic can contain many to-dos, but a to-do can only be assigned to one topic
+    If a topic is deleted then all its to-dos are unassigned and moved to the 'General' topic
+    If a to-do is created with no topic, then move it to the 'General' topic 
+
+    The 'General' topic is immutable. To-dos can be added, but it itself cannot be updated nor deleted.  
