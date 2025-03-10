@@ -9,6 +9,12 @@ As a layman user, I can...
     - Add sub-tasks so that I can break-down larger tasks into more manageable steps 
     - Delete the to-do so I can clear already completed or irrelevant to-dos 
 
+    Subtasks 
+    - Create a new subtask so that I can break down larger tasks to smaller ones
+    - Edit the description so that I can correct mistakes 
+    - Mark the subtask as done so that I can track my progress 
+    - Delete a subtask so that I can unnecessary steps from my to-do list
+
     Topic
     - Create topics so that I can organize my to-dos 
     - Assign a to-do to a topic so that I can track tasks related to different areas of work, or life
