@@ -1,33 +1,32 @@
 import { Todo, Subtask, Topic, Priority } from './model.js';
+import { generalTopic, scienceTopic } from './dummy.js';
 
+/* Save data */
+const STORAGE_KEY = "data"
+localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic, scienceTopic]));
 
+/* Load data */
+const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+const myTopics = {};
 
-// /* Save data */
-// const STORAGE_KEY = "data"
-// localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic, scienceTopic]));
+for(const dryTopic of dryData) {
+    const topic = new Topic(dryTopic.title, dryTopic.description);
 
-// /* Load data */
-// const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-// const myTopics = {};
+    for(const dryTodo of dryTopic.toDoCollection) {
 
-// for(const dryTopic of dryData) {
-//     const topic = new Topic(dryTopic.title, dryTopic.description);
+        const todo = new Todo(
+            dryTodo.title,
+            dryTodo.description,
+            new Date(dryTodo.dueDate),
+            Priority.hydrate(dryTodo.priority),
+            dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone))
+        )
+        topic.addToCollection(todo);
+    }
 
-//     for(const dryTodo of dryTopic.toDoCollection) {
+    myTopics[topic.title] = topic;
+}
 
-//         const todo = new Todo(
-//             dryTodo.title,
-//             dryTodo.description,
-//             new Date(dryTodo.dueDate),
-//             Priority.hydrate(dryTodo.priority),
-//             dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone))
-//         )
-//         topic.addToCollection(todo);
-//     }
+myTopics["Science"].moveTodo(myTopics["General"], 0);
 
-//     myTopics[topic.title] = topic;
-// }
-
-// myTopics["Science"].moveTodo(myTopics["General"], 0);
-
-// console.log(myTopics);
+console.log(myTopics);

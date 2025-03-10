@@ -106,11 +106,3 @@ scienceTopic.description = "Even More Sciencey";
 myData.splice(1, 1);
 
 // console.log(myData);
-
-/*
-============================
-DATA RELATIONS / CONSTRAINTS
-============================
-*/
-
-/* 1 - If a topic is deleted then all its to-dos are unassigned and moved to the 'General' topic */
