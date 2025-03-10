@@ -1,8 +1,8 @@
 import { Todo, Subtask, Topic, Priority } from './model.js';
 
 /* Global names */
-const STORAGE_KEY = "data";
-const GENERAL_NAME = "General";
+export const STORAGE_KEY = "data";
+export const GENERAL_NAME = "General";
 
 export function firstSetup() {
     /* 
