@@ -8,7 +8,7 @@ const todo1 = new Todo(
     [
         new Subtask("Buy green goo"),
         new Subtask("Acquire laser beam"),
-        new Subtask("Assemble remote control"),
+        new Subtask("Assemble remote control"), 
         new Subtask("Put it all together"),
     ]
 )
