@@ -7,6 +7,10 @@ export class Todo {
         this.subtasks = subtasks;
         this.isDone = isDone;
     }
+
+    addSubtask(subtask) {
+        this.subtasks.push(subtask);
+    }
 }
 
 export class Subtask {

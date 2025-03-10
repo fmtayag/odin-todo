@@ -60,6 +60,9 @@ todo1.dueDate = new Date(2025, 2, 12);
 /* User story: Set a priority on the to-do so that I can focus on the most important tasks first */
 todo1.priority = Priority.Low;
 
+/* User story: Add sub-tasks so that I can break-down larger tasks into more manageable steps */
+todo1.addSubtask(new Subtask("New subtask!"));
+
 console.log([todo1, todo2, todo3]);
 
 // /* Save data */
