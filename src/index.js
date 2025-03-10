@@ -1,10 +1,14 @@
 import { Todo, Subtask, Topic, Priority } from './model.js';
 import { generalTopic, scienceTopic } from './dummy.js';
 
-const myTopics = {};
 const STORAGE_KEY = "data";
 const GENERAL_NAME = "General";
+
 firstSetup();
+const myTopics = loadData();
+
+// myTopics["Science"].moveTodo(myTopics["General"], 0);
+saveData(myTopics);
 
 function firstSetup() {
     /* 
@@ -14,32 +18,31 @@ function firstSetup() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic]));
 }
 
-// /* Save data */
-// localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic, scienceTopic]));
+function saveData(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
 
-// /* Load data */
-// const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+function loadData() {
+    const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    const data = [];
 
-// for(const dryTopic of dryData) {
-//     const topic = new Topic(dryTopic.title, dryTopic.description);
+    for(const dryTopic of dryData) {
+        const topic = new Topic(dryTopic.title, dryTopic.description);
 
-//     for(const dryTodo of dryTopic.toDoCollection) {
+        for(const dryTodo of dryTopic.toDoCollection) {
 
-//         const todo = new Todo(
-//             dryTodo.title,
-//             dryTodo.description,
-//             new Date(dryTodo.dueDate),
-//             Priority.hydrate(dryTodo.priority),
-//             dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone))
-//         )
-//         topic.addToCollection(todo);
-//     }
+            const todo = new Todo(
+                dryTodo.title,
+                dryTodo.description,
+                new Date(dryTodo.dueDate),
+                Priority.hydrate(dryTodo.priority),
+                dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone))
+            )
+            topic.addToCollection(todo);
+        }
 
-//     myTopics[topic.title] = topic;
-// }
+        data[topic.title] = topic;
+    }
 
-// myTopics["Science"].moveTodo(myTopics["General"], 0);
-// localStorage.setItem(STORAGE_KEY, JSON.stringify(myTopics));
-
-
-// console.log(myTopics);
+    return data;
+}
