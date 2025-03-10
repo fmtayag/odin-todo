@@ -33,7 +33,6 @@ export function loadData() {
         const topic = new Topic(dryData[key].title, dryData[key].description);
 
         for(const dryTodo of dryData[key].toDoCollection) {
-
             const todo = new Todo(
                 dryTodo.title,
                 dryTodo.description,
@@ -46,6 +45,5 @@ export function loadData() {
 
         data[topic.title] = topic;
     }
-
-    return data;
+    return data;    
 }
