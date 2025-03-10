@@ -46,17 +46,6 @@ const todo3 = new Todo(
 todo3.title = "New Title for Task 3";
 todo3.description = "New description for Task 3";
 
-const generalTopic = new Topic(
-    "General",
-    "These to-dos are uncategorized",
-    [todo1, todo2, todo3]
-)
-
-const scienceTopic = new Topic(
-    "Science",
-    "My science projects"
-)
-
 /* User story: Mark the to-do as complete so that I can track my progress */
 todo1.isDone = true;
 
@@ -95,8 +84,28 @@ todo1.removeSubtask(0);
 ========================
 */
 
+/* User story: Create topics so that I can organize my to-dos */
+/* User story: Assign a to-do to a topic so that I can track tasks related to different areas of work, or life */
+/* User story: Add a short description so that I know what kind of to-dos belong to it */
+const generalTopic = new Topic(
+    "General",
+    "These to-dos are uncategorized",
+    [todo1, todo2, todo3]
+)
 
-console.log([todo1, todo2, todo3]);
+const scienceTopic = new Topic(
+    "Science",
+    "My science projects"
+)
+const myData = [generalTopic, scienceTopic];
+
+/* User story: Update the name of a topic so that I can correct mistakes or refine its meaning  */
+scienceTopic.description = "Even More Sciencey";
+
+/* User story: Delete a topic so that I can remove already finished or irrelevant categories  */
+myData.splice(1, 1);
+
+console.log(myData);
 
 // /* Save data */
 // const STORAGE_KEY = "data"
