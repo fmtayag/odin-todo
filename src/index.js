@@ -79,6 +79,16 @@ todo1.addSubtask(new Subtask("New subtask!"));
 const subtask1 = new Subtask("An even more brand new subtask");
 todo1.addSubtask(subtask1);
 
+/* User story: Edit the description so that I can correct mistakes */
+subtask1.description = "Edited a subtask";
+todo1.subtasks[0].description = "Edited description";
+
+/* User story: Mark the subtask as done so that I can track my progress */
+todo1.subtasks[0].isDone = true;
+
+/* User story: Delete a subtask so that I can unnecessary steps from my to-do list */
+todo1.removeSubtask(0);
+
 /*
 ========================
         TOPICS

@@ -11,6 +11,10 @@ export class Todo {
     addSubtask(subtask) {
         this.subtasks.push(subtask);
     }
+
+    removeSubtask(index) {
+        this.subtasks.splice(index, 1);
+    }
 }
 
 export class Subtask {
