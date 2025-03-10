@@ -51,6 +51,9 @@ const scienceTopic = new Topic(
     "My science projects"
 )
 
+/* User story: Mark the to-do as complete so that I can track my progress */
+todo1.isDone = true;
+
 console.log([todo1, todo2, todo3]);
 
 // /* Save data */
