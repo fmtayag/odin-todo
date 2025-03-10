@@ -1,6 +1,6 @@
-import { Todo, Subtask, Topic, Priority } from './model.js';
-import { todo1, todo2, todo3 } from './dummy.js';
-import { firstSetup, saveData, loadData } from './data.js';
+import { Todo, Subtask, Topic, Priority } from './scripts/model.js';
+import { todo1, todo2, todo3 } from './scripts/dummy.js';
+import { firstSetup, saveData, loadData } from './scripts/data.js';
 
 firstSetup();
 const myTopics = loadData();
