@@ -4,6 +4,8 @@
 ========================
 */
 
+import { Todo, Priority, Subtask, Topic } from "./model";
+
 /* User story: Create a new to-do so that I can keep track of my tasks */
 const todo1 = new Todo(
     "Create a science thingamajig",
@@ -104,3 +106,11 @@ scienceTopic.description = "Even More Sciencey";
 myData.splice(1, 1);
 
 // console.log(myData);
+
+/*
+============================
+DATA RELATIONS / CONSTRAINTS
+============================
+*/
+
+/* 1 - If a topic is deleted then all its to-dos are unassigned and moved to the 'General' topic */

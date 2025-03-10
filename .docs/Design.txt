@@ -51,7 +51,6 @@ Data Model:
 Data Relationships:
     A to-do can contain many sub-tasks, but a sub-task can only be assigned to one to-do 
     A topic can contain many to-dos, but a to-do can only be assigned to one topic
-    If a topic is deleted then all its to-dos are unassigned and moved to the 'General' topic
     If a to-do is created with no topic, then move it to the 'General' topic 
 
     The 'General' topic is immutable. To-dos can be added, but it itself cannot be updated nor deleted.  
