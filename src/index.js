@@ -1,5 +1,6 @@
 import { Todo, Subtask, Topic, Priority } from './model.js';
 
+/* User story: Create a new to-do so that I can keep track of my tasks */
 const todo1 = new Todo(
     "Create a science thingamajig",
     "A thingmajig to do amazing things!",
@@ -35,6 +36,10 @@ const todo3 = new Todo(
     ]
 )
 
+/* User story: Edit the title, and description so that I can update my task with new info */
+todo3.title = "New Title for Task 3";
+todo3.description = "New description for Task 3";
+
 const generalTopic = new Topic(
     "General",
     "These to-dos are uncategorized",
@@ -46,32 +51,34 @@ const scienceTopic = new Topic(
     "My science projects"
 )
 
-/* Save data */
-const STORAGE_KEY = "data"
-localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic, scienceTopic]));
+console.log([todo1, todo2, todo3]);
 
-/* Load data */
-const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-const myTopics = {};
+// /* Save data */
+// const STORAGE_KEY = "data"
+// localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic, scienceTopic]));
 
-for(const dryTopic of dryData) {
-    const topic = new Topic(dryTopic.title, dryTopic.description);
+// /* Load data */
+// const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+// const myTopics = {};
 
-    for(const dryTodo of dryTopic.toDoCollection) {
+// for(const dryTopic of dryData) {
+//     const topic = new Topic(dryTopic.title, dryTopic.description);
 
-        const todo = new Todo(
-            dryTodo.title,
-            dryTodo.description,
-            new Date(dryTodo.dueDate),
-            Priority.hydrate(dryTodo.priority),
-            dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone))
-        )
-        topic.addToCollection(todo);
-    }
+//     for(const dryTodo of dryTopic.toDoCollection) {
 
-    myTopics[topic.title] = topic;
-}
+//         const todo = new Todo(
+//             dryTodo.title,
+//             dryTodo.description,
+//             new Date(dryTodo.dueDate),
+//             Priority.hydrate(dryTodo.priority),
+//             dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone))
+//         )
+//         topic.addToCollection(todo);
+//     }
 
-myTopics["Science"].moveTodo(myTopics["General"], 0);
+//     myTopics[topic.title] = topic;
+// }
 
-console.log(myTopics);
+// myTopics["Science"].moveTodo(myTopics["General"], 0);
+
+// console.log(myTopics);
