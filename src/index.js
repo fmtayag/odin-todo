@@ -36,10 +36,10 @@ function loadData() {
     const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
     const data = {};
 
-    for(const dryTopic of dryData) {
-        const topic = new Topic(dryTopic.title, dryTopic.description);
+    for(let key in dryData) {
+        const topic = new Topic(dryData[key].title, dryData[key].description);
 
-        for(const dryTodo of dryTopic.toDoCollection) {
+        for(const dryTodo of dryData[key].toDoCollection) {
 
             const todo = new Todo(
                 dryTodo.title,
