@@ -1,6 +1,7 @@
 import { Todo, Subtask, Topic, Priority } from './model.js';
 import { generalTopic, scienceTopic } from './dummy.js';
 
+/* Global names */
 const STORAGE_KEY = "data";
 const GENERAL_NAME = "General";
 
@@ -14,8 +15,17 @@ function firstSetup() {
     /* 
         Sets up the program, assuming the user is using it for the first time
     */
-    const generalTopic = new Topic(GENERAL_NAME, "These to-dos are uncategorized");
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([generalTopic]));
+    if(localStorage.getItem(STORAGE_KEY) === null) {
+        const generalTopic = new Topic(GENERAL_NAME, "These to-dos are uncategorized");
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                [GENERAL_NAME]: generalTopic,
+            }
+        ));
+        console.log("Set up finished!");
+    }
+    else {
+        console.log("Already set up!");
+    }
 }
 
 function saveData(data) {
@@ -23,8 +33,8 @@ function saveData(data) {
 }
 
 function loadData() {
-    const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    const data = [];
+    const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    const data = {};
 
     for(const dryTopic of dryData) {
         const topic = new Topic(dryTopic.title, dryTopic.description);
