@@ -54,6 +54,9 @@ const scienceTopic = new Topic(
 /* User story: Mark the to-do as complete so that I can track my progress */
 todo1.isDone = true;
 
+/* User story: Set a due date on the to-do so that I don't miss deadlines  */
+todo1.dueDate = new Date(2025, 2, 12);
+
 console.log([todo1, todo2, todo3]);
 
 // /* Save data */
