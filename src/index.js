@@ -1,5 +1,11 @@
 import { Todo, Subtask, Topic, Priority } from './model.js';
 
+/*
+========================
+        TO-DO
+========================
+*/
+
 /* User story: Create a new to-do so that I can keep track of my tasks */
 const todo1 = new Todo(
     "Create a science thingamajig",
@@ -62,6 +68,23 @@ todo1.priority = Priority.Low;
 
 /* User story: Add sub-tasks so that I can break-down larger tasks into more manageable steps */
 todo1.addSubtask(new Subtask("New subtask!"));
+
+/*
+========================
+        SUBTASKS
+========================
+*/
+
+/* User story: Create a new subtask so that I can break down larger tasks to smaller ones */
+const subtask1 = new Subtask("An even more brand new subtask");
+todo1.addSubtask(subtask1);
+
+/*
+========================
+        TOPICS
+========================
+*/
+
 
 console.log([todo1, todo2, todo3]);
 
