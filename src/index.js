@@ -1,5 +1,5 @@
 import { Todo, Subtask, Topic, Priority } from './scripts/model.js';
-import { todo1, todo2, todo3 } from './scripts/dummy.js';
+import { generalTopic, todo1, todo2, todo3 } from './scripts/dummy.js';
 import { STORAGE_KEY, GENERAL_NAME, firstSetup, saveData, loadData } from './scripts/data.js';
 
 firstSetup();
@@ -7,18 +7,34 @@ const myTopics = loadData();
 
 // Program flow 
 const scienceTopic = new Topic("Science", "Sciencey stuff goes here");
+myTopics[scienceTopic.title] = scienceTopic;
 createList();
 
 const addTodoButton = document.querySelector("#addTodo");
+const addTopicButton = document.querySelector("#addTopic");
 
 addTodoButton.addEventListener("click", (e) => {
     container.innerHTML = ``;
-    myTopics[scienceTopic.title].addToCollection(
+    myTopics[generalTopic.title].addToCollection(
         new Todo("Test", "Desc", new Date(2025, 2, 5), Priority.High)
     )
     saveData(myTopics);
     createList();
 });
+
+addTopicButton.addEventListener("click", (e) => {
+    const dummyTopic = "dummyTopic";
+    
+    container.innerHTML = ``;
+    if(!myTopics.hasOwnProperty(dummyTopic)) {
+        myTopics[dummyTopic] = new Topic(dummyTopic, "New topic description");
+    }
+    else {
+        console.log("Topic already exists");
+    }
+    saveData(myTopics);
+    createList();
+})
 
 function createList() {
     console.log(myTopics);
