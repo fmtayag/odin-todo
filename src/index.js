@@ -174,8 +174,9 @@ function showTodoEditModal(topic, todo) {
         todoEditModal.close();
     })
     
-    exitModalBtn.addEventListener("click", (e) => {
+    exitModalBtn.addEventListener("click", function eventHandler(e) {
         todoEditModal.close();
+        this.removeEventListener("click", eventHandler);
     })
 
 
