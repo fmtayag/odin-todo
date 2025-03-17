@@ -33,7 +33,6 @@ addTodoButton.addEventListener("click", (e) => {
 
     console.log(todoTitle, todoDesc, todoDue, todoPriority);
     
-    container.innerHTML = ``;
     myTopics[todoTopic].addToCollection(
         new Todo(todoTitle, todoDesc, new Date(todoDue), Priority.hydrate(todoPriority))
     )
@@ -47,7 +46,6 @@ addTopicButton.addEventListener("click", (e) => {
     const topicName = nameField.value;
     const topicDesc = descField.value;
     
-    container.innerHTML = ``;
     if(!myTopics.hasOwnProperty(topicName)) {
         myTopics[topicName] = new Topic(topicName, topicDesc);
     }
@@ -88,6 +86,7 @@ editSelectTopic.addEventListener("change", (e) => {
 })
 
 function rebuildDOM() {
+    container.innerHTML = '';
     createList();
     populateTopicSelect("#todoTopic");
     populateTopicSelect("#editSelectTopic");
