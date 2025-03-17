@@ -14,6 +14,19 @@ const addTodoButton = document.querySelector("#addTodo");
 const addTopicButton = document.querySelector("#addTopic");
 
 addTodoButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    const titleField = document.querySelector("#todoTitle");
+    const descField = document.querySelector("#todoDescription");
+    const dueDateField = document.querySelector("#todoDueDate");
+    const priorityField = document.querySelector("#todoPriority");
+
+    const todoTitle = titleField.value;
+    const todoDesc = descField.value; 
+    const todoDue = dueDateField.value; 
+    const todoPriority = priorityField.value;
+
+    console.log(todoTitle, todoDesc, todoDue, todoPriority);
+    
     container.innerHTML = ``;
     myTopics[generalTopic.title].addToCollection(
         new Todo("Test", "Desc", new Date(2025, 2, 5), Priority.High)

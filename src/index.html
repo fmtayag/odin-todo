@@ -6,13 +6,36 @@
     <title>Experiment</title>
 </head>
 <body>
-    <button type="button" id="addTodo">Add Todo</button>
     
+    <h2>Todo</h2>
+    <form action="" method="post">
+        <label for="todoTitle">Todo title</label>
+        <input type="text" name="todo_title" id="todoTitle">
+
+        <label for="todoDescription">Todo description</label>
+        <input type="text" name="todo_description" id="todoDescription">
+        
+        <label for="todoDueDate">Todo duedate</label>
+        <input type="date" name="todo_duedate" id="todoDueDate">
+
+        <label for="todoPriority">Todo priority</label>
+        <select name="todo_priority" id="todoPriority">
+            <option value="3">Top Priority</option>
+            <option value="2">Med Priority</option>
+            <option value="1">Low Priority</option>
+            <option value="0" selected>No Priority</option>
+        </select>
+
+        <button type="submit" id="addTodo">Add Todo</button>
+        <!-- TODO: Input subtasks -->
+    </form>
+    
+    <h2>Topic</h2>
     <form action="" method="post">
         <label for="topicName">Topic Name</label>
         <input type="text" name="topic_name" id="topicName">
         <label for="topicDescription">Topic Description</label>
-        <input type="text" name="topic_name" id="topicDescription">
+        <input type="text" name="topic_description" id="topicDescription">
         <button type="submit" id="addTopic" value="Topic">Add Topic</button>
     </form>
     <div id="container">
