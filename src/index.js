@@ -23,17 +23,21 @@ addTodoButton.addEventListener("click", (e) => {
 });
 
 addTopicButton.addEventListener("click", (e) => {
-    const dummyTopic = "dummyTopic";
+    const nameField = document.querySelector("#topicName");
+    const descField = document.querySelector("#topicDescription");
+    const topicName = nameField.value;
+    const topicDesc = descField.value;
     
     container.innerHTML = ``;
-    if(!myTopics.hasOwnProperty(dummyTopic)) {
-        myTopics[dummyTopic] = new Topic(dummyTopic, "New topic description");
+    if(!myTopics.hasOwnProperty(topicName)) {
+        myTopics[topicName] = new Topic(topicName, topicDesc);
     }
     else {
         console.log("Topic already exists");
     }
     saveData(myTopics);
     createList();
+    e.preventDefault();
 })
 
 function createList() {
