@@ -34,11 +34,13 @@ export function loadData() {
 
         for(const dryTodo of dryData[key].toDoCollection) {
             const todo = new Todo(
+                dryTodo.id,
                 dryTodo.title,
                 dryTodo.description,
                 new Date(dryTodo.dueDate),
                 dryTodo.priority,
-                dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone)),
+                [],
+                // dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone)),
                 dryTodo.isDone
             )
             topic.addToCollection(todo);

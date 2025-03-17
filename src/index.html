@@ -6,6 +6,39 @@
     <title>Experiment</title>
 </head>
 <body>
+    <!-- Modals -->
+    
+    <dialog id="todoEditModal">
+        <form action="" method="post">
+            <label for="todoTitle">Todo title</label>
+            <input type="text" name="todo_title" id="edit_todoTitle">
+    
+            <label for="todoDescription">Todo description</label>
+            <input type="text" name="todo_description" id="edit_todoDescription">
+            
+            <label for="todoDueDate">Todo duedate</label>
+            <input type="date" name="todo_duedate" id="edit_todoDueDate">
+    
+            <label for="todoPriority">Todo priority</label>
+            <select name="todo_priority" id="edit_todoPriority">
+                <option value="3">Top Priority</option>
+                <option value="2">Med Priority</option>
+                <option value="1">Low Priority</option>
+                <option value="0" selected>No Priority</option>
+            </select>
+
+            <input type="checkbox" id="edit_todoIsDone">
+    
+            <label for="todoTopic">Choose topic:</label>
+            <select name="todo_topic" id="edit_todoTopic">
+    
+            </select>
+    
+            <button type="submit" id="editTodo">Save</button>
+            <button type="button" id="exitTodoModal">Exit</button>
+            <!-- TODO: Input subtasks -->
+        </form>
+    </dialog>
     
     <h1>Todo</h1>
     <h2>Add</h2>
@@ -33,7 +66,6 @@
         </select>
 
         <button type="submit" id="addTodo">Add Todo</button>
-        <!-- TODO: Input subtasks -->
     </form>
     <br>
     

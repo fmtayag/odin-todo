@@ -1,5 +1,6 @@
 export class Todo {
-    constructor(title, description, dueDate, priority, subtasks=[], isDone=false) {
+    constructor(id, title, description, dueDate, priority, subtasks=[], isDone=false) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -44,6 +45,7 @@ export class Topic {
         const todo = source.toDoCollection.find(
             (item, index) => index === todoIndex
         );
+
         // Add todo to this topic
         this.addToCollection(todo);
         

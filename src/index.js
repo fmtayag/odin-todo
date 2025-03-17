@@ -31,10 +31,11 @@ addTodoButton.addEventListener("click", (e) => {
 
     const topic = generalTopic.title;
 
-    console.log(todoTitle, todoDesc, todoDue, todoPriority);
+    const id = (new Date()).getTime(); // Pseudo auto-id
+    console.log(id, todoTitle, todoDesc, todoDue, todoPriority);
     
     myTopics[todoTopic].addToCollection(
-        new Todo(todoTitle, todoDesc, new Date(todoDue), todoPriority )
+        new Todo(id, todoTitle, todoDesc, new Date(todoDue), todoPriority )
     )
     saveData(myTopics);
     rebuildDOM();
@@ -88,95 +89,172 @@ editSelectTopic.addEventListener("change", (e) => {
 
 function rebuildDOM() {
     container.innerHTML = '';
-    createList();
+    const add_todoDueDate = document.querySelector("#todoDueDate");
+    add_todoDueDate.value = new Date().toISOString().slice(0, 10);
+
+
+
+    createTodoList();
     populateTopicSelect("#todoTopic");
     populateTopicSelect("#editSelectTopic");
     populateTopicEditFields();
 }
 
-function createList() {
-    console.log(myTopics);
+function createTodoList() {
     for(const topic in myTopics) {
-        
         const h3 = document.createElement("h1"); 
         const ul = document.createElement("ul");
         h3.textContent = topic;
-        
+
         for(const todo of myTopics[topic].toDoCollection) {
             const li = document.createElement("li");
+            const button = document.createElement("button");
+            button.addEventListener("click", (e) => {
+                showTodoEditModal(topic, todo)
+            })
+            button.type = "button";
+            button.textContent = "Edit";
 
-            /* Title field */
-            const titleField = document.createElement("input");
-            titleField.type = "text";
-            titleField.value = todo.title;
-
-            /* Description field */
-            const descField = document.createElement("input");
-            descField.type = "text";
-            descField.value = todo.description;
-
-            /* Due date field */
-            const dateField = document.createElement("input");
-            dateField.type = "date";
-            dateField.value = todo.dueDate.toISOString().slice(0, 10);         
-            
-            /* Priority field */
-            const prioritySelect = document.createElement("select");
-
-            const noPrio = document.createElement("option");
-            noPrio.value = Priority.None;
-            noPrio.textContent = "No Priority";
-
-            const lowPrio = document.createElement("option");
-            lowPrio.value = Priority.Low;
-            lowPrio.textContent = "Low Priority";
-
-            const medPrio = document.createElement("option");
-            medPrio.value = Priority.Medium;
-            medPrio.textContent = "Med Priority";
-
-            const highPrio = document.createElement("option");
-            highPrio.value = Priority.High;
-            highPrio.textContent = "Top Priority";
-
-            prioritySelect.append(noPrio);
-            prioritySelect.append(lowPrio);
-            prioritySelect.append(medPrio);
-            prioritySelect.append(highPrio);
-
-            prioritySelect.value = todo.priority;
-
-            /* Is done */
-            const todoCheckbox = document.createElement("input");
-            todoCheckbox.type = "checkbox";
-            todoCheckbox.checked = todo.isDone;
-            console.log(todo.isDone);
-            
-            /* Topic */
-            const topicSelect = document.createElement("select");
-            topicSelect.innerHTML = '';
-            for(let topic in myTopics) {
-                const option = document.createElement("option");
-                option.value = topic;
-                option.textContent = topic;
-                topicSelect.append(option);
-            }
-            topicSelect.value = topic;
-
-            li.dataset.index = myTopics[topic].toDoCollection.indexOf(todo);
-
-            li.appendChild(titleField);
-            li.appendChild(descField);
-            li.appendChild(dateField);
-            li.appendChild(prioritySelect);
-            li.appendChild(todoCheckbox);
-            li.appendChild(topicSelect);
+            li.textContent = `${todo.title}: ${todo.description}`;
+            li.appendChild(button);
             ul.appendChild(li);
         }
 
         container.appendChild(h3);
         container.appendChild(ul);
     }
+}
+
+function showTodoEditModal(topic, todo) {
+    edit_todoTitle.value = todo.title;
+    edit_todoDescription.value = todo.description;
+    edit_todoDueDate.value = todo.dueDate.toISOString().slice(0, 10);
+    edit_todoPriority.value = todo.priority;
+    edit_todoIsDone.checked = todo.isDone; 
+
+    edit_todoTopic.innerHTML = ``;
+    for(let topic in myTopics) {
+        const option = document.createElement("option");
+        option.value = topic;
+        option.textContent = topic;
+        edit_todoTopic.append(option);
+    }
+    edit_todoTopic.value = topic;
+
+    const saveEditBtn = document.querySelector("#editTodo");
+    const exitModalBtn = document.querySelector("#exitTodoModal");
+    console.log(myTopics);
+
+    saveEditBtn.addEventListener("click", function eventHandler(e) {
+        e.preventDefault();
+        todo.title = edit_todoTitle.value;
+        todo.description = edit_todoDescription.value;
+        todo.dueDate = new Date(edit_todoDueDate.value);
+        todo.priority = edit_todoPriority.value;
+        todo.isDone = edit_todoIsDone.checked;
+        
+        const newTopic = edit_todoTopic.value;
+        const oldTopic = topic;
+        if (topic !== edit_todoTopic.value) {
+            const removeIndex = myTopics[oldTopic].toDoCollection.map(item => item.id).indexOf(todo.id);
+            console.log()
+            myTopics[newTopic].addToCollection(todo);
+            myTopics[oldTopic].removeTodo(removeIndex);
+        }
+
+        console.log(myTopics);
+
+        /* Fix to prevent the todos from being duplicated when 
+            being moved from one topic to another
+        */
+        this.removeEventListener("click", eventHandler);
+
+        saveData(myTopics);
+        rebuildDOM();
+        todoEditModal.close();
+    })
+    
+    exitModalBtn.addEventListener("click", (e) => {
+        todoEditModal.close();
+    })
+
+
+    todoEditModal.show();
+}
+
+function createModal(topic, todo) {
+    const modal = document.createElement("dialog");
+    const li = document.createElement("li");
+
+    /* Title field */
+    const titleField = document.createElement("input");
+    titleField.type = "text";
+    titleField.value = todo.title;
+
+    /* Description field */
+    const descField = document.createElement("input");
+    descField.type = "text";
+    descField.value = todo.description;
+
+    /* Due date field */
+    const dateField = document.createElement("input");
+    dateField.type = "date";
+    dateField.value = todo.dueDate.toISOString().slice(0, 10);         
+    
+    /* Priority field */
+    const prioritySelect = document.createElement("select");
+
+    const noPrio = document.createElement("option");
+    noPrio.value = Priority.None;
+    noPrio.textContent = "No Priority";
+
+    const lowPrio = document.createElement("option");
+    lowPrio.value = Priority.Low;
+    lowPrio.textContent = "Low Priority";
+
+    const medPrio = document.createElement("option");
+    medPrio.value = Priority.Medium;
+    medPrio.textContent = "Med Priority";
+
+    const highPrio = document.createElement("option");
+    highPrio.value = Priority.High;
+    highPrio.textContent = "Top Priority";
+
+    prioritySelect.append(noPrio);
+    prioritySelect.append(lowPrio);
+    prioritySelect.append(medPrio);
+    prioritySelect.append(highPrio);
+
+    prioritySelect.value = todo.priority;
+
+    /* Is done */
+    const todoCheckbox = document.createElement("input");
+    todoCheckbox.type = "checkbox";
+    todoCheckbox.checked = todo.isDone;
+    console.log(todo.isDone);
+    
+    /* Topic */
+    const topicSelect = document.createElement("select");
+    topicSelect.innerHTML = '';
+    for(let topic in myTopics) {
+        const option = document.createElement("option");
+        option.value = topic;
+        option.textContent = topic;
+        topicSelect.append(option);
+    }
+    topicSelect.value = topic;
+
+    li.dataset.index = myTopics[topic].toDoCollection.indexOf(todo);
+
+    li.appendChild(titleField);
+    li.appendChild(descField);
+    li.appendChild(dateField);
+    li.appendChild(prioritySelect);
+    li.appendChild(todoCheckbox);
+    li.appendChild(topicSelect);
+    modal.appendChild(li);
+    document.body.appendChild(modal);
+    modal.show(true);
 }
 
 function populateTopicSelect(id) {
