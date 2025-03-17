@@ -34,7 +34,7 @@ addTodoButton.addEventListener("click", (e) => {
     console.log(todoTitle, todoDesc, todoDue, todoPriority);
     
     myTopics[todoTopic].addToCollection(
-        new Todo(todoTitle, todoDesc, new Date(todoDue), todoPriority)
+        new Todo(todoTitle, todoDesc, new Date(todoDue), todoPriority )
     )
     saveData(myTopics);
     rebuildDOM();
@@ -144,15 +144,24 @@ function createList() {
             prioritySelect.append(medPrio);
             prioritySelect.append(highPrio);
 
-            console.log(todo.priority);
             prioritySelect.value = todo.priority;
 
-            // console.log(`${year}-${month}-${day}`);
-            // console.log(todo.dueDate.toISOString().slice(0, 10));
-
-
-            // li.textContent = `${todo.title}: ${todo.description} (${todo.dueDate})`;
-            // li.dataset.index = myTopics[topic].toDoCollection.indexOf(todo);
+            /* Is done */
+            const todoCheckbox = document.createElement("input");
+            todoCheckbox.type = "checkbox";
+            todoCheckbox.checked = todo.isDone;
+            console.log(todo.isDone);
+            
+            /* Topic */
+            const topicSelect = document.createElement("select");
+            topicSelect.innerHTML = '';
+            for(let topic in myTopics) {
+                const option = document.createElement("option");
+                option.value = topic;
+                option.textContent = topic;
+                topicSelect.append(option);
+            }
+            topicSelect.value = topic;
 
             li.dataset.index = myTopics[topic].toDoCollection.indexOf(todo);
 
@@ -160,6 +169,8 @@ function createList() {
             li.appendChild(descField);
             li.appendChild(dateField);
             li.appendChild(prioritySelect);
+            li.appendChild(todoCheckbox);
+            li.appendChild(topicSelect);
             ul.appendChild(li);
         }
 
