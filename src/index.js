@@ -71,6 +71,7 @@ editTopicButton.addEventListener("click", (e) => {
     myTopics[oldTopicTitle].title = newTopicTitle;
     myTopics[oldTopicTitle].description = newTopicDesc;
 
+    /* "Rename" the key */
     if(oldTopicTitle !== newTopicTitle) {
         myTopics[newTopicTitle] = myTopics[oldTopicTitle];
         delete myTopics[oldTopicTitle];
