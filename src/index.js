@@ -25,11 +25,13 @@ addTodoButton.addEventListener("click", (e) => {
     const todoDue = dueDateField.value; 
     const todoPriority = priorityField.value;
 
+    const topic = generalTopic.title;
+
     console.log(todoTitle, todoDesc, todoDue, todoPriority);
     
     container.innerHTML = ``;
-    myTopics[generalTopic.title].addToCollection(
-        new Todo("Test", "Desc", new Date(2025, 2, 5), Priority.High)
+    myTopics[topic].addToCollection(
+        new Todo(todoTitle, todoDesc, new Date(todoDue), Priority.hydrate(todoPriority))
     )
     saveData(myTopics);
     createList();
