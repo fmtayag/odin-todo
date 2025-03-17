@@ -34,7 +34,7 @@ addTodoButton.addEventListener("click", (e) => {
     console.log(todoTitle, todoDesc, todoDue, todoPriority);
     
     myTopics[todoTopic].addToCollection(
-        new Todo(todoTitle, todoDesc, new Date(todoDue), Priority.hydrate(todoPriority))
+        new Todo(todoTitle, todoDesc, new Date(todoDue), todoPriority)
     )
     saveData(myTopics);
     rebuildDOM();
@@ -104,9 +104,62 @@ function createList() {
         
         for(const todo of myTopics[topic].toDoCollection) {
             const li = document.createElement("li");
-            li.textContent = `${todo.title}: ${todo.description} (${todo.dueDate})`;
+
+            /* Title field */
+            const titleField = document.createElement("input");
+            titleField.type = "text";
+            titleField.value = todo.title;
+
+            /* Description field */
+            const descField = document.createElement("input");
+            descField.type = "text";
+            descField.value = todo.description;
+
+            /* Due date field */
+            const dateField = document.createElement("input");
+            dateField.type = "date";
+            dateField.value = todo.dueDate.toISOString().slice(0, 10);         
+            
+            /* Priority field */
+            const prioritySelect = document.createElement("select");
+
+            const noPrio = document.createElement("option");
+            noPrio.value = Priority.None;
+            noPrio.textContent = "No Priority";
+
+            const lowPrio = document.createElement("option");
+            lowPrio.value = Priority.Low;
+            lowPrio.textContent = "Low Priority";
+
+            const medPrio = document.createElement("option");
+            medPrio.value = Priority.Medium;
+            medPrio.textContent = "Med Priority";
+
+            const highPrio = document.createElement("option");
+            highPrio.value = Priority.High;
+            highPrio.textContent = "Top Priority";
+
+            prioritySelect.append(noPrio);
+            prioritySelect.append(lowPrio);
+            prioritySelect.append(medPrio);
+            prioritySelect.append(highPrio);
+
+            console.log(todo.priority);
+            prioritySelect.value = todo.priority;
+
+            // console.log(`${year}-${month}-${day}`);
+            // console.log(todo.dueDate.toISOString().slice(0, 10));
+
+
+            // li.textContent = `${todo.title}: ${todo.description} (${todo.dueDate})`;
+            // li.dataset.index = myTopics[topic].toDoCollection.indexOf(todo);
+
             li.dataset.index = myTopics[topic].toDoCollection.indexOf(todo);
 
+            li.appendChild(titleField);
+            li.appendChild(descField);
+            li.appendChild(dateField);
+            li.appendChild(prioritySelect);
             ul.appendChild(li);
         }
 
