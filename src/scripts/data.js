@@ -38,7 +38,8 @@ export function loadData() {
                 dryTodo.description,
                 new Date(dryTodo.dueDate),
                 dryTodo.priority,
-                dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone))
+                dryTodo.subtasks.map( subtask => new Subtask(subtask.description, subtask.isDone)),
+                dryTodo.isDone
             )
             topic.addToCollection(todo);
         }
