@@ -8,7 +8,7 @@ const myTopics = loadData();
 // Program flow 
 const scienceTopic = new Topic("Science", "Sciencey stuff goes here");
 myTopics[scienceTopic.title] = scienceTopic;
-createList();
+rebuildDOM();
 
 const addTodoButton = document.querySelector("#addTodo");
 const addTopicButton = document.querySelector("#addTopic");
@@ -19,22 +19,24 @@ addTodoButton.addEventListener("click", (e) => {
     const descField = document.querySelector("#todoDescription");
     const dueDateField = document.querySelector("#todoDueDate");
     const priorityField = document.querySelector("#todoPriority");
+    const topicSelect = document.querySelector("#todoTopic");
 
     const todoTitle = titleField.value;
     const todoDesc = descField.value; 
     const todoDue = dueDateField.value; 
     const todoPriority = priorityField.value;
+    const todoTopic = topicSelect.value;
 
     const topic = generalTopic.title;
 
     console.log(todoTitle, todoDesc, todoDue, todoPriority);
     
     container.innerHTML = ``;
-    myTopics[topic].addToCollection(
+    myTopics[todoTopic].addToCollection(
         new Todo(todoTitle, todoDesc, new Date(todoDue), Priority.hydrate(todoPriority))
     )
     saveData(myTopics);
-    createList();
+    rebuildDOM();
 });
 
 addTopicButton.addEventListener("click", (e) => {
@@ -51,9 +53,14 @@ addTopicButton.addEventListener("click", (e) => {
         console.log("Topic already exists");
     }
     saveData(myTopics);
-    createList();
+    rebuildDOM();
     e.preventDefault();
 })
+
+function rebuildDOM() {
+    createList();
+    populateTopicSelect();
+}
 
 function createList() {
     console.log(myTopics);
@@ -73,6 +80,16 @@ function createList() {
 
         container.appendChild(h3);
         container.appendChild(ul);
+    }
+}
+
+function populateTopicSelect() {
+    const topicSelect = document.querySelector("#todoTopic");
+    for(let topic in myTopics) {
+        const option = document.createElement("option");
+        option.value = topic;
+        option.textContent = topic;
+        topicSelect.append(option);
     }
 }
 
