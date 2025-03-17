@@ -6,12 +6,14 @@ firstSetup();
 const myTopics = loadData();
 
 // Program flow 
-const scienceTopic = new Topic("Science", "Sciencey stuff goes here");
-myTopics[scienceTopic.title] = scienceTopic;
+// const scienceTopic = new Topic("Science", "Sciencey stuff goes here");
+// myTopics[scienceTopic.title] = scienceTopic;
 rebuildDOM();
 
 const addTodoButton = document.querySelector("#addTodo");
 const addTopicButton = document.querySelector("#addTopic");
+const editTopicButton = document.querySelector("#editTopic");
+const editSelectTopic = document.querySelector("#editSelectTopic");
 
 addTodoButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -57,9 +59,39 @@ addTopicButton.addEventListener("click", (e) => {
     e.preventDefault();
 })
 
+editTopicButton.addEventListener("click", (e) => {
+    /* 
+        TODO: Add validation
+    */
+    const topicTitleField = document.querySelector("#editTopicName");
+    const topicDescField = document.querySelector("#editTopicDescription");
+    
+    const oldTopicTitle = document.querySelector("#editSelectTopic").value;
+    const newTopicTitle = topicTitleField.value;
+    const newTopicDesc = topicDescField.value;
+
+    myTopics[oldTopicTitle].title = newTopicTitle;
+    myTopics[oldTopicTitle].description = newTopicDesc;
+
+    if(oldTopicTitle !== newTopicTitle) {
+        myTopics[newTopicTitle] = myTopics[oldTopicTitle];
+        delete myTopics[oldTopicTitle];
+    }
+    saveData(myTopics);
+    
+    e.preventDefault();
+    rebuildDOM();
+})
+
+editSelectTopic.addEventListener("change", (e) => {
+    populateTopicEditFields();
+})
+
 function rebuildDOM() {
     createList();
-    populateTopicSelect();
+    populateTopicSelect("#todoTopic");
+    populateTopicSelect("#editSelectTopic");
+    populateTopicEditFields();
 }
 
 function createList() {
@@ -83,14 +115,24 @@ function createList() {
     }
 }
 
-function populateTopicSelect() {
-    const topicSelect = document.querySelector("#todoTopic");
+function populateTopicSelect(id) {
+    const topicSelect = document.querySelector(id);
+    topicSelect.innerHTML = '';
     for(let topic in myTopics) {
         const option = document.createElement("option");
         option.value = topic;
         option.textContent = topic;
         topicSelect.append(option);
     }
+}
+
+function populateTopicEditFields() {
+    const topicSelect = document.querySelector("#editSelectTopic");
+    const topic = topicSelect.value; 
+    console.log(`Topic is ${topic}`);
+
+    editTopicName.value = myTopics[topic].title;
+    editTopicDescription.value = myTopics[topic].description;   
 }
 
 // TODO: Program end
