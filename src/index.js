@@ -108,15 +108,26 @@ function createTodoList() {
 
         for(const todo of myTopics[topic].toDoCollection) {
             const li = document.createElement("li");
-            const button = document.createElement("button");
-            button.addEventListener("click", (e) => {
+            const editButton = document.createElement("button");
+            editButton.addEventListener("click", (e) => {
                 showTodoEditModal(topic, todo)
             })
-            button.type = "button";
-            button.textContent = "Edit";
+            editButton.type = "button";
+            editButton.textContent = "Edit";
+
+            const deleteButton = document.createElement("button");
+            deleteButton.addEventListener("click", (e) => {
+                const removeIndex = myTopics[topic].toDoCollection.map(item => item.id).indexOf(todo.id);
+                myTopics[topic].removeTodo(removeIndex);
+                saveData(myTopics);
+                rebuildDOM();
+            })
+            deleteButton.type = "button";
+            deleteButton.textContent = "Delete";
 
             li.textContent = `${todo.title}: ${todo.description}`;
-            li.appendChild(button);
+            li.appendChild(editButton);
+            li.appendChild(deleteButton);
             ul.appendChild(li);
         }
 
