@@ -6,6 +6,18 @@ import './styles/style.css';
 /* Global 'myTopics' that acts as a data cache */
 const myTopics = loadData();
 
+const createTopicListener = event => { 
+    event.preventDefault();
+    createNewTopic();
+};
+
+const updateTopicListener = (key, event) => {
+    event.preventDefault();
+    updateTopic(key);
+}
+
+let boundUpdateTopicListener = null;
+
 class DOMHandler {
     static rebuildDOM(){
         this.#rebuildTopicList();
@@ -25,31 +37,12 @@ class DOMHandler {
             editButton.textContent = "Edit";
             editButton.addEventListener("click", (e) => {
                 topicModal.show();
+
                 topicTitle.value = myTopics[key].title;
                 topicDesc.value = myTopics[key].description;
+                boundUpdateTopicListener = updateTopicListener.bind(null, key);
 
-                topicForm.addEventListener("submit", function updateTopic(e) {
-                    e.preventDefault();
-        
-                    /* TODO: Add client-side validation later */
-
-                    const newTitle = topicTitle.value;
-                    const newDescription = topicDesc.value;
-                    
-                    myTopics[key].title = newTitle;
-                    myTopics[key].description = newDescription;
-                    
-                    if(key !== newTitle) {
-                        myTopics[newTitle] = myTopics[key];
-                        delete myTopics[key];
-                    }
-
-                    saveData(myTopics);
-                    DOMHandler.rebuildDOM();
-                    topicModal.close();
-                    
-                    this.removeEventListener("submit", updateTopic);
-                });
+                topicForm.addEventListener("submit", boundUpdateTopicListener);
             });
 
             const deleteButton = document.createElement("button");
@@ -127,29 +120,52 @@ class TopicModal {
             topicModal.show();
             topicTitle.value = '';
             topicDesc.value = '';
-
-            topicForm.addEventListener("submit", function createNewTopic(e) {
-                e.preventDefault();
-    
-                /* TODO: Add client-side validation later */
-                
-                const title = topicTitle.value;
-                const description = topicDesc.value;
-    
-                myTopics[title] = new Topic(title, description);
-                saveData(myTopics);
-    
-                DOMHandler.rebuildDOM();
-                topicModal.close();
-
-                this.removeEventListener("submit", createNewTopic);
-            });
+            
+            topicForm.addEventListener("submit", createTopicListener);
         });
 
         closeBtn.addEventListener("click", (e) => {
             topicModal.close();
+            topicForm.removeEventListener("submit", createTopicListener);
+            topicForm.removeEventListener("submit", boundUpdateTopicListener);
         });
     }
+}
+
+function createNewTopic() {
+    console.log("Hello");
+    /* TODO: Add client-side validation later */
+    
+    const title = topicTitle.value;
+    const description = topicDesc.value;
+
+    myTopics[title] = new Topic(title, description);
+    saveData(myTopics);
+
+    DOMHandler.rebuildDOM();
+    topicModal.close();
+
+    topicForm.removeEventListener("submit", createTopicListener);
+}
+
+function updateTopic(key) {
+    /* TODO: Add client-side validation later */
+    const newTitle = topicTitle.value;
+    const newDescription = topicDesc.value;
+    
+    myTopics[key].title = newTitle;
+    myTopics[key].description = newDescription;
+    
+    if(key !== newTitle) {
+        myTopics[newTitle] = myTopics[key];
+        delete myTopics[key];
+    }
+
+    saveData(myTopics);
+    DOMHandler.rebuildDOM();
+    topicModal.close();
+    
+    topicForm.removeEventListener("submit", boundUpdateTopicListener);
 }
 
 /* Driver code */
