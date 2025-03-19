@@ -19,12 +19,30 @@ class DOMHandler {
             const item = document.createElement("li");
             item.textContent = key;
 
+            const editButton = document.createElement("button");
+            editButton.type = "button";
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", (e) => {
+                topic_addModal.show();
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", (e) => {
+                delete myTopics[key]
+                saveData(myTopics);
+                this.rebuildDOM();
+            });
+
+            item.appendChild(editButton);
+            item.appendChild(deleteButton);
             topicsList.appendChild(item);
         }
     }
 }
 
-class AddTopicModal {
+class TopicModal {
     static setupListeners() {
         const showModalBtn = document.querySelector("#newTopic");
         const closeBtn = topic_addModal.querySelector(".close");
@@ -56,6 +74,6 @@ class AddTopicModal {
 
 /* Driver code */
 firstSetup();
-AddTopicModal.setupListeners();
+TopicModal.setupListeners();
 DOMHandler.rebuildDOM();
 
