@@ -20,10 +20,6 @@ body {
     width: 50vw;
 }
 
-#topics {
-    border-right: 1px solid black;
-}
-
 ul {
     list-style-type: none;
 }
