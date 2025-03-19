@@ -31,7 +31,7 @@ class DOMHandler {
                     e.preventDefault();
         
                     /* TODO: Add client-side validation later */
-                    
+
                     const newTitle = topicTitle.value;
                     const newDescription = topicDesc.value;
                     
@@ -64,6 +64,21 @@ class DOMHandler {
             item.appendChild(deleteButton);
             topicsList.appendChild(item);
         }
+    }
+}
+
+class TodoModal {
+    static setupListeners() {
+        const showModalBtn = document.querySelector("#newTodo");
+        const closeBtn = todoModal.querySelector(".close");
+
+        showModalBtn.addEventListener("click", (e) => {
+            todoModal.show();
+        });
+
+        closeBtn.addEventListener("click", (e) => {
+            todoModal.close();
+        });
     }
 }
 
@@ -103,6 +118,7 @@ class TopicModal {
 
 /* Driver code */
 firstSetup();
+TodoModal.setupListeners();
 TopicModal.setupListeners();
 DOMHandler.rebuildDOM();
 
