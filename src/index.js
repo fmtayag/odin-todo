@@ -9,11 +9,13 @@ const myTopics = loadData();
 const createTopicListener = event => { 
     event.preventDefault();
     createNewTopic();
+    topicForm.removeEventListener("submit", createTopicListener);
 };
 
 const updateTopicListener = (key, event) => {
     event.preventDefault();
     updateTopic(key);
+    topicForm.removeEventListener("submit", boundUpdateTopicListener);
 }
 
 let boundUpdateTopicListener = null;
@@ -40,8 +42,8 @@ class DOMHandler {
 
                 topicTitle.value = myTopics[key].title;
                 topicDesc.value = myTopics[key].description;
-                boundUpdateTopicListener = updateTopicListener.bind(null, key);
 
+                boundUpdateTopicListener = updateTopicListener.bind(null, key);
                 topicForm.addEventListener("submit", boundUpdateTopicListener);
             });
 
@@ -145,7 +147,6 @@ function createNewTopic() {
     DOMHandler.rebuildDOM();
     topicModal.close();
 
-    topicForm.removeEventListener("submit", createTopicListener);
 }
 
 function updateTopic(key) {
@@ -164,8 +165,6 @@ function updateTopic(key) {
     saveData(myTopics);
     DOMHandler.rebuildDOM();
     topicModal.close();
-    
-    topicForm.removeEventListener("submit", boundUpdateTopicListener);
 }
 
 /* Driver code */
