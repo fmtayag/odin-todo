@@ -23,7 +23,32 @@ class DOMHandler {
             editButton.type = "button";
             editButton.textContent = "Edit";
             editButton.addEventListener("click", (e) => {
-                topic_addModal.show();
+                topicModal.show();
+                topicTitle.value = myTopics[key].title;
+                topicDesc.value = myTopics[key].description;
+
+                topicForm.addEventListener("submit", function updateTopic(e) {
+                    e.preventDefault();
+        
+                    /* TODO: Add client-side validation later */
+                    
+                    const newTitle = topicTitle.value;
+                    const newDescription = topicDesc.value;
+                    
+                    myTopics[key].title = newTitle;
+                    myTopics[key].description = newDescription;
+                    
+                    if(key !== newTitle) {
+                        myTopics[newTitle] = myTopics[key];
+                        delete myTopics[key];
+                    }
+
+                    saveData(myTopics);
+                    DOMHandler.rebuildDOM();
+                    topicModal.close();
+                    
+                    this.removeEventListener("submit", updateTopic);
+                });
             });
 
             const deleteButton = document.createElement("button");
@@ -45,29 +70,33 @@ class DOMHandler {
 class TopicModal {
     static setupListeners() {
         const showModalBtn = document.querySelector("#newTopic");
-        const closeBtn = topic_addModal.querySelector(".close");
+        const closeBtn = topicModal.querySelector(".close");
 
         showModalBtn.addEventListener("click", (e) => {
-            topic_addModal.show();
-        });
+            topicModal.show();
+            topicTitle.value = '';
+            topicDesc.value = '';
 
-        form_addTopic.addEventListener("submit", (e) => {
-            e.preventDefault();
+            topicForm.addEventListener("submit", function createNewTopic(e) {
+                e.preventDefault();
+    
+                /* TODO: Add client-side validation later */
+                
+                const title = topicTitle.value;
+                const description = topicDesc.value;
+    
+                myTopics[title] = new Topic(title, description);
+                saveData(myTopics);
+    
+                DOMHandler.rebuildDOM();
+                topicModal.close();
 
-            /* TODO: Add client-side validation later */
-            
-            const title = add_topicTitle.value;
-            const description = add_topicDesc.value;
-
-            myTopics[title] = new Topic(title, description);
-            saveData(myTopics);
-
-            DOMHandler.rebuildDOM();
-            topic_addModal.close();
+                this.removeEventListener("submit", createNewTopic);
+            });
         });
 
         closeBtn.addEventListener("click", (e) => {
-            topic_addModal.close();
+            topicModal.close();
         });
     }
 }
