@@ -8,11 +8,26 @@
 </head>
 <body>
     <!-- Modals -->
-    <dialog id="todo_addModal">
+    <dialog id="todoModal">
+        <form action="" id="todoForm">
+            <label for="todoTitle">Title: </label>
+            <input type="text" name="" id="todoTitle">
+            <label for="todoDesc">Description: </label>
+            <input type="text" name="" id="todoDesc">
+            <label for="todoDue">Due Date:</label>
+            <input type="date" name="" id="todoDue">
+            <select id="todoPriority">
+                <option value="3">High Priority</option>
+                <option value="2">Medium Priority</option>
+                <option value="1">Low Priority</option>
+                <option value="0" selected>No Priority</option>
+            </select>
+            <label for="todoDone">Done?</label>
+            <input type="radio" name="" id="todoDone" checked>
 
-    </dialog>
-    <dialog id="todo_editModal">
-
+            <button type="submit">Save</button>
+            <button type="button" class="close">Close</button>
+        </form>
     </dialog>
 
     <dialog id="topicModal">
