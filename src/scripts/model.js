@@ -10,10 +10,18 @@ export class Todo {
 }
 
 export class Topic {
-    constructor(title, description, toDoCollection=[]) {
+    constructor(title, description, todos=[]) {
         this.title = title;
         this.description = description;
-        this.toDoCollection = toDoCollection;
+        this.todos = todos;
+    }
+
+    addTodo(todo) {
+        this.todos.push(todo);
+    }
+    
+    removeTodo(id) {
+        // TODO
     }
 }
 

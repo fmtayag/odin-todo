@@ -35,7 +35,7 @@ export function loadData() {
     for(let key in dryData) {
         const topic = new Topic(dryData[key].title, dryData[key].description);
 
-        for(const dryTodo of dryData[key].toDoCollection) {
+        for(const dryTodo of dryData[key].todos) {
             const todo = new Todo(
                 dryTodo.id,
                 dryTodo.title,
@@ -44,7 +44,7 @@ export function loadData() {
                 dryTodo.priority,
                 dryTodo.isDone
             )
-            topic.addToCollection(todo);
+            topic.addTodo(todo);
         }
 
         data[topic.title] = topic;

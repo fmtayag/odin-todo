@@ -9,6 +9,7 @@ const myTopics = loadData();
 class DOMHandler {
     static rebuildDOM(){
         this.#rebuildTopicList();
+        console.log(myTopics);
     }
 
     static #rebuildTopicList() {
@@ -74,11 +75,46 @@ class TodoModal {
 
         showModalBtn.addEventListener("click", (e) => {
             todoModal.show();
+            this.#populateTopicSelect();
+            todoDue.value = new Date().toISOString().slice(0, 10);
+
+            todoForm.addEventListener("submit", function createNewTodo(e) {
+                e.preventDefault();
+
+                /* TODO: Add client-side validation later */
+
+                const id = new Date().getTime(); /* Pseudo auto-id */
+                const title = todoTitle.value;
+                const description = todoDesc.value;
+                const due = new Date(todoDue.value);
+                const priority = todoPriority.value; 
+                const isDone = todoDone.checked;
+                const topic = todoTopics.value; 
+
+                const todo = new Todo(id, title, description, due, priority, isDone);
+                myTopics[topic].addTodo(todo);
+                saveData(myTopics);
+
+                DOMHandler.rebuildDOM();
+                todoModal.close();
+
+                // console.log(id, title, description, due, due, priority, isDone, topic);
+                // console.log(myTopics);
+            })
         });
 
         closeBtn.addEventListener("click", (e) => {
             todoModal.close();
         });
+    }
+
+    static #populateTopicSelect() {
+        for(const topic in myTopics) {
+            const option = document.createElement("option");
+            option.value = topic;
+            option.textContent = topic;
+            todoTopics.appendChild(option);
+        }
     }
 }
 
