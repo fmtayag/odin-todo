@@ -16,28 +16,39 @@
     </dialog>
 
     <dialog id="topic_addModal">
-
+        <form action="" id="form_addTopic">
+            <label for="add_topictitle">Title: </label>
+            <input type="text" name="" id="add_topicTitle">
+            <label for="add_topicDesc">Description: </label>
+            <input type="text" name="" id="add_topicDesc">
+            
+            <button type="submit">Save</button>
+            <button type="button" class="close">Close</button>
+        </form>
     </dialog>
     <dialog id="topic_editModal">
 
     </dialog>
+    <!-- End Modals -->
 
     <div id="container">
-        <div id="topics">
+        <div>
             <h2>Topics</h2>
-            <ul>
+            <ul id="topics">
                 <li>Home</li>
                 <li>Work</li>
             </ul>
+            <button type="button" id="newTopic">New Topic</button>
         </div>
-        <div id="todos">
+        <div>
             <h2>Home</h2>
-            <ul>
+            <ul id="todos">
                 <li>Todo 1</li>
                 <li>Todo 2</li>
                 <li>Todo 3</li>
                 <li>Todo 4</li>
             </ul>
+            <button type="button" id="newTodo">New Topic</button>
         </div>
     </div>
 </body>
