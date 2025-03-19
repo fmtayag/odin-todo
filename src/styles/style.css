@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+}
+
+#container {
+    border: 1px solid black;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    width: 50vw;
+}
+
+#topics {
+    border-right: 1px solid black;
+}
+
+ul {
+    list-style-type: none;
+}
