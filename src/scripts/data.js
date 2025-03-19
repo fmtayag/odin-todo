@@ -2,16 +2,19 @@ import { Todo, Topic, Priority } from './model.js';
 
 /* Global names */
 export const STORAGE_KEY = "data";
-export const GENERAL_NAME = "General";
+export const HOME_NAME = "Home";
+export const WORK_NAME = "Work";
 
 export function firstSetup() {
     /* 
         Sets up the program, assuming the user is using it for the first time
     */
     if(localStorage.getItem(STORAGE_KEY) === null) {
-        const generalTopic = new Topic(GENERAL_NAME, "These to-dos are uncategorized");
+        const homeTopic = new Topic(HOME_NAME, "Home tasks goes here!");
+        const workTopic = new Topic(WORK_NAME, "Work tasks goes here!");
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                [GENERAL_NAME]: generalTopic,
+                [HOME_NAME]: homeTopic,
+                [WORK_NAME]: workTopic,
             }
         ));
         console.log("Set up finished!");
