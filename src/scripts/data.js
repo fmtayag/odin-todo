@@ -1,4 +1,4 @@
-import { Todo, Subtask, Topic, Priority } from './model.js';
+import { Todo, Topic, Priority } from './model.js';
 
 /* Global names */
 export const STORAGE_KEY = "data";
