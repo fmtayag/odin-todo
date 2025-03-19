@@ -1,26 +1,10 @@
 export class Todo {
-    constructor(id, title, description, dueDate, priority, subtasks=[], isDone=false) {
+    constructor(id, title, description, dueDate, priority, isDone=false) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.subtasks = subtasks;
-        this.isDone = isDone;
-    }
-
-    addSubtask(subtask) {
-        this.subtasks.push(subtask);
-    }
-
-    removeSubtask(index) {
-        this.subtasks.splice(index, 1);
-    }
-}
-
-export class Subtask {
-    constructor(description, isDone=false) {
-        this.description = description;
         this.isDone = isDone;
     }
 }
@@ -30,27 +14,6 @@ export class Topic {
         this.title = title;
         this.description = description;
         this.toDoCollection = toDoCollection;
-    }
-
-    addToCollection(todo) {
-        this.toDoCollection.push(todo);
-    }
-
-    removeTodo(todoIndex) {
-        this.toDoCollection.splice(todoIndex, 1);
-    }
-
-    moveTodo(source, todoIndex) {
-        // Retrieve todo
-        const todo = source.toDoCollection.find(
-            (item, index) => index === todoIndex
-        );
-
-        // Add todo to this topic
-        this.addToCollection(todo);
-        
-        // Remove todo from source topic 
-        source.removeTodo(todoIndex);
     }
 }
 
@@ -71,15 +34,6 @@ export class Priority {
     }
     static get High() {
         return this.#_HIGH;
-    }
-    static hydrate(value) {
-        switch(value) {
-            default:
-            case 0: return this.#_NONE;
-            case 1: return this.#_LOW;
-            case 2: return this.#_MED;
-            case 3: return this.#_HIGH;
-        }
     }
 }
 
