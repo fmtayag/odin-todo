@@ -56,7 +56,15 @@ function updateTopic(key) {
 export class DOMHandler {
     static rebuildDOM(){
         this.#rebuildTopicList();
-        console.log(myTopics);
+        this.#rebuildTodoList("Home");
+    }
+
+    static #rebuildTodoList(topic) {
+        for(const todo of myTopics[topic].todos) {
+            const li = document.createElement("li");
+            li.textContent = todo.title;
+            todos.appendChild(li);
+        }
     }
 
     static #rebuildTopicList() {
