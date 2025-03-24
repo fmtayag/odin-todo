@@ -19,6 +19,12 @@ const updateTopicListener = (key, event) => {
     topicForm.removeEventListener("submit", boundUpdateTopicListener);
 }
 
+const createTodoListener = event => {
+    event.preventDefault();
+    createNewTodo();
+    todoForm.removeEventListener("submit", createTodoListener);
+}
+
 /* Create and Update functions */
 function createNewTopic() {
     console.log("Hello");
@@ -51,6 +57,26 @@ function updateTopic(key) {
     saveData(myTopics);
     DOMHandler.rebuildDOM();
     topicModal.close();
+}
+
+function createNewTodo() {
+    /* TODO: Add client-side validation later */
+
+    const id = new Date().getTime(); /* Pseudo auto-id */
+    const title = todoTitle.value;
+    const description = todoDesc.value;
+    const due = new Date(todoDue.value);
+    const priority = todoPriority.value; 
+    const isDone = todoDone.checked;
+    const topic = todoTopics.value; 
+
+    const todo = new Todo(id, title, description, due, priority, isDone);
+    myTopics[topic].addTodo(todo);
+    console.log("Hey");
+    saveData(myTopics);
+
+    DOMHandler.rebuildDOM();
+    todoModal.close();
 }
 
 export class DOMHandler {
@@ -115,34 +141,12 @@ export class TodoModal {
             this.#populateTopicSelect();
             todoDue.value = new Date().toISOString().slice(0, 10);
 
-            todoForm.addEventListener("submit", function createNewTodo(e) {
-                e.preventDefault();
-
-                /* TODO: Add client-side validation later */
-
-                const id = new Date().getTime(); /* Pseudo auto-id */
-                const title = todoTitle.value;
-                const description = todoDesc.value;
-                const due = new Date(todoDue.value);
-                const priority = todoPriority.value; 
-                const isDone = todoDone.checked;
-                const topic = todoTopics.value; 
-
-                const todo = new Todo(id, title, description, due, priority, isDone);
-                myTopics[topic].addTodo(todo);
-                console.log("Hey");
-                saveData(myTopics);
-
-                DOMHandler.rebuildDOM();
-                todoModal.close();
-
-                // console.log(id, title, description, due, due, priority, isDone, topic);
-                // console.log(myTopics);
-            })
+            todoForm.addEventListener("submit", createTodoListener)
         });
 
         closeBtn.addEventListener("click", (e) => {
             todoModal.close();
+            todoForm.removeEventListener("submit", createTodoListener);
         });
     }
 
