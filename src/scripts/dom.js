@@ -90,6 +90,21 @@ export class DOMHandler {
         for(const todo of myTopics[topic].todos) {
             const li = document.createElement("li");
             li.textContent = todo.title;
+            
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", (e) => {
+                const results = myTopics[topic].todos.filter(
+                    (t) => t.id !== todo.id
+                );
+                
+                myTopics[topic].todos = results;
+                saveData(myTopics);
+                this.rebuildDOM();
+            });
+
+            li.appendChild(deleteButton);
             todos.appendChild(li);
         }
     }
