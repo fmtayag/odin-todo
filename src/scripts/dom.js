@@ -60,6 +60,7 @@ export class DOMHandler {
     }
 
     static #rebuildTodoList(topic) {
+        todos.innerHTML = ``;
         for(const todo of myTopics[topic].todos) {
             const li = document.createElement("li");
             li.textContent = todo.title;
@@ -129,6 +130,7 @@ export class TodoModal {
 
                 const todo = new Todo(id, title, description, due, priority, isDone);
                 myTopics[topic].addTodo(todo);
+                console.log("Hey");
                 saveData(myTopics);
 
                 DOMHandler.rebuildDOM();
