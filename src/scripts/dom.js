@@ -6,6 +6,7 @@ const myTopics = loadData();
 
 /* Event listeners */
 let boundUpdateTopicListener = null;
+let boundUpdateTodoListener = null;
 
 const createTopicListener = event => { 
     event.preventDefault();
@@ -23,6 +24,12 @@ const createTodoListener = event => {
     event.preventDefault();
     createNewTodo();
     todoForm.removeEventListener("submit", createTodoListener);
+}
+
+const updateTodoListener = (key, id, event) => {
+    event.preventDefault();
+    updateTodo(key, id);
+    todoForm.removeEventListener("submit", boundUpdateTodoListener);
 }
 
 /* Create and Update functions */
@@ -79,6 +86,39 @@ function createNewTodo() {
     todoModal.close();
 }
 
+function updateTodo(oldTopic, id) {
+    /* TODO: Add client-side validation later */
+
+    const title = todoTitle.value;
+    const description = todoDesc.value;
+    const due = new Date(todoDue.value);
+    const priority = todoPriority.value; 
+    const isDone = todoDone.checked;
+    const topic = todoTopics.value; 
+
+    const changedTopic = topic !== oldTopic; 
+    
+    const matchID = (todo) => todo.id === id;
+    const index = myTopics[oldTopic].todos.findIndex(matchID);
+    
+    if (changedTopic) {
+        const todo = new Todo(id, title, description, due, priority, isDone);
+        myTopics[oldTopic].todos.splice(index, 1);
+        myTopics[topic].todos.push(todo);
+    }
+    else {
+        myTopics[oldTopic].todos[index].title = title;
+        myTopics[oldTopic].todos[index].description = description;
+        myTopics[oldTopic].todos[index].due = due;
+        myTopics[oldTopic].todos[index].priority = priority;
+        myTopics[oldTopic].todos[index].isDone = isDone;
+    }
+
+    saveData(myTopics);
+    DOMHandler.rebuildDOM();
+    todoModal.close();
+}
+
 export class DOMHandler {
     static rebuildDOM(){
         this.#rebuildTopicList();
@@ -90,6 +130,24 @@ export class DOMHandler {
         for(const todo of myTopics[topic].todos) {
             const li = document.createElement("li");
             li.textContent = todo.title;
+
+            const editButton = document.createElement("button");
+            editButton.type = "button";
+            editButton.textContent = "Edit";
+            editButton.addEventListener("click", (e) => {
+                todoModal.show();
+
+                todoTitle.value = todo.title;
+                todoDesc.value = todo.description;
+                todoDue.value = new Date(todo.dueDate).toISOString().slice(0, 10);
+                todoPriority.value = todo.priority;
+                todoDone.checked = todo.isDone;
+                TodoModal.populateTopicSelect();
+                todoTopics.value = topic;
+
+                boundUpdateTodoListener = updateTodoListener.bind(null, topic, todo.id);
+                todoForm.addEventListener("submit", boundUpdateTodoListener);
+            });
             
             const deleteButton = document.createElement("button");
             deleteButton.type = "button";
@@ -98,12 +156,13 @@ export class DOMHandler {
                 const results = myTopics[topic].todos.filter(
                     (t) => t.id !== todo.id
                 );
-                
+
                 myTopics[topic].todos = results;
                 saveData(myTopics);
                 this.rebuildDOM();
             });
 
+            li.appendChild(editButton);
             li.appendChild(deleteButton);
             todos.appendChild(li);
         }
@@ -153,7 +212,7 @@ export class TodoModal {
 
         showModalBtn.addEventListener("click", (e) => {
             todoModal.show();
-            this.#populateTopicSelect();
+            this.populateTopicSelect();
             todoDue.value = new Date().toISOString().slice(0, 10);
 
             todoForm.addEventListener("submit", createTodoListener)
@@ -162,10 +221,12 @@ export class TodoModal {
         closeBtn.addEventListener("click", (e) => {
             todoModal.close();
             todoForm.removeEventListener("submit", createTodoListener);
+            todoForm.removeEventListener("submit", boundUpdateTodoListener);
         });
     }
 
-    static #populateTopicSelect() {
+    static populateTopicSelect() {
+        todoTopics.innerHTML = ``;
         for(const topic in myTopics) {
             const option = document.createElement("option");
             option.value = topic;
