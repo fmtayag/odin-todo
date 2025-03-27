@@ -34,7 +34,7 @@ export function loadData() {
     for(let key in dryData) {
         const topic = new Topic(dryData[key].title, dryData[key].description);
 
-        for(const dryTodo of dryData[key].todos) {
+        for(const dryTodo in dryData[key].todos) {
             const todo = new Todo(
                 dryTodo.title,
                 dryTodo.description,

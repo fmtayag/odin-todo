@@ -9,7 +9,7 @@ export class Todo {
 }
 
 export class Topic {
-    constructor(title, description, todos=[]) {
+    constructor(title, description, todos={}) {
         this.title = title;
         this.description = description;
         this.todos = todos;
