@@ -9,6 +9,16 @@ const listTodos = (key, topic) => {
     openTodoBtn.classList.remove("hidden");
 }
 
+export const openDefaultTopic = () => {
+    const data = loadData();
+    if (Object.keys(data).length > 0) {
+        const key = Object.keys(data)[0];
+        const topic = data[key];
+
+        listTodos(key, topic);
+    }
+}
+
 export const listTopics = () => {
     const list = document.querySelector("#topics");
     const data = loadData();
