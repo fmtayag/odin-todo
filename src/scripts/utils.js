@@ -14,3 +14,11 @@ export const clearTextFields = (form) => {
     .filter((item) => item.tagName === "INPUT" && item.type === "text")
     .map((input) => input.value = "");
 }
+export const createButton = (textContent, clickCallback) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = textContent;
+    button.addEventListener("click", clickCallback);
+
+    return button;
+}
