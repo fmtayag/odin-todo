@@ -1,5 +1,5 @@
 import { loadData } from "./data";
-import { openTopicModalForEdit } from "./topic";
+import { deleteTopic, openTopicModalForEdit } from "./topic";
 import { createButton } from "./utils";
 
 export const listTopics = () => {
@@ -12,7 +12,7 @@ export const listTopics = () => {
         listItem.textContent = topic.title;
 
         const editButton = createButton("Edit", (e) => openTopicModalForEdit(e, key, topic.title, topic.description));
-        const deleteButton = createButton("Delete", (e) => {});
+        const deleteButton = createButton("Delete", (e) => deleteTopic(e, key));
 
         listItem.appendChild(editButton);
         listItem.appendChild(deleteButton);

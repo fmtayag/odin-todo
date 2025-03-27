@@ -1,8 +1,16 @@
-import { loadData, STORAGE_KEY } from './data.js';
+import { loadData, saveData } from './data.js';
 import { Topic } from './model.js';
 import { addToLocal, clearTextFields, getAutoID } from './utils';
 
 let boundEditListener = null;
+
+export const deleteTopic = (e, id) => {
+    const data = loadData();
+    delete data[id];
+    saveData(data);
+    location.reload();
+    return false;
+}
 
 export const openTopicModalForEdit = (e, id, title, desc) => {
     const modal = document.querySelector("#topicModal");
