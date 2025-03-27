@@ -1,4 +1,5 @@
-import { Todo, Topic, Priority } from './model.js';
+import { Todo, Topic } from './model.js';
+import { getAutoID } from './utils.js';
 
 /* Global names */
 export const STORAGE_KEY = "data";
@@ -12,15 +13,13 @@ export function firstSetup() {
     if(localStorage.getItem(STORAGE_KEY) === null) {
         const homeTopic = new Topic(HOME_NAME, "Home tasks goes here!");
         const workTopic = new Topic(WORK_NAME, "Work tasks goes here!");
+        const homeId = getAutoID();
+        const workId = getAutoID() + 1;
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                [HOME_NAME]: homeTopic,
-                [WORK_NAME]: workTopic,
+                [homeId]: homeTopic,
+                [workId]: workTopic,
             }
         ));
-        console.log("Set up finished!");
-    }
-    else {
-        console.log("Already set up!");
     }
 }
 
@@ -37,7 +36,6 @@ export function loadData() {
 
         for(const dryTodo of dryData[key].todos) {
             const todo = new Todo(
-                dryTodo.id,
                 dryTodo.title,
                 dryTodo.description,
                 new Date(dryTodo.dueDate),
@@ -47,7 +45,7 @@ export function loadData() {
             topic.addTodo(todo);
         }
 
-        data[topic.title] = topic;
+        data[key] = topic;
     }
     return data;    
 }

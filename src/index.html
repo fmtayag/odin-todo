@@ -9,13 +9,14 @@
 <body>
     <!-- Modals -->
     <dialog id="todoModal">
-        <form action="" id="todoForm">
+        <form id="todoForm">
             <label for="todoTitle">Title: </label>
             <input type="text" name="" id="todoTitle">
             <label for="todoDesc">Description: </label>
             <input type="text" name="" id="todoDesc">
             <label for="todoDue">Due Date:</label>
             <input type="date" name="" id="todoDue">
+
             <select id="todoPriority">
                 <option value="3">High Priority</option>
                 <option value="2">Medium Priority</option>
@@ -29,21 +30,22 @@
             <label for="todoDone">Done?</label>
             <input type="checkbox" name="" id="todoDone">
 
-            <button type="submit">Save</button>
+            <button type="submit" id="submitTodo">Save</button>
+            <button type="button" id="closeTodo">Close</button>
         </form>
-        <button type="button" class="close">Close</button>
     </dialog>
 
     <dialog id="topicModal">
-        <form action="" id="topicForm">
+        <form id="topicForm">
+
             <label for="topicTitle">Title: </label>
-            <input type="text" name="" id="topicTitle">
+            <input type="text" name="" id="topicTitle" minlength="1" required>
             <label for="topicDesc">Description: </label>
             <input type="text" name="" id="topicDesc">
             
             <button type="submit" id="submitTopic">Save</button>
+            <button type="button" id="closeTopic">Close</button>
         </form>
-        <button type="button" class="close">Close</button>
     </dialog>
     <!-- End Modals -->
 
@@ -53,14 +55,15 @@
             <ul id="topics">
 
             </ul>
-            <button type="button" id="newTopic">New Topic</button>
+            <button type="button" id="openTopic">New Topic</button>
         </div>
         <div>
             <h2 id="currentTopic"></h2>
             <ul id="todos">
             </ul>
-            <button type="button" id="newTodo">New Todo</button>
+            <button type="button" id="openTodo">New Todo</button>
         </div>
     </div>
+
 </body>
 </html>
