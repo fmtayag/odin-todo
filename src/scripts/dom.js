@@ -18,6 +18,7 @@ const listTodos = (topicKey, topic) => {
 
     /* Create the list */
     const list = document.querySelector("#todos");
+    list.innerHTML = "";
     const data = loadData();
 
     for (const todoKey in data[topicKey].todos) {
