@@ -1,12 +1,32 @@
 import { loadData } from "./data";
 import { deleteTopic, openTopicModalForEdit } from "./topic";
+import { openTodoModal } from "./todo";
 import { createButton } from "./utils";
 
-const listTodos = (key, topic) => {
+const listTodos = (topicKey, topic) => {
     const header = document.querySelector("#currentTopic");
-    const openTodoBtn = document.querySelector("#openTodo");
     header.textContent = topic.title;
-    openTodoBtn.classList.remove("hidden");
+
+    /* Create button for opening todo modal */
+    const buttonHolder = document.querySelector("#buttonHolder");
+    buttonHolder.innerHTML = "";
+
+    const openTodoBtn = createButton("New Todo"); 
+    openTodoBtn.addEventListener("click", () => openTodoModal(topicKey));
+
+    buttonHolder.appendChild(openTodoBtn);
+
+    /* Create the list */
+    const list = document.querySelector("#todos");
+    const data = loadData();
+
+    for(const todoKey in data[topicKey].todos) {
+        const todo = data[topicKey].todos[todoKey];
+
+        const listItem = document.createElement("li");
+        listItem.textContent = todo.title;
+        list.appendChild(listItem);
+    }
 }
 
 export const openDefaultTopic = () => {

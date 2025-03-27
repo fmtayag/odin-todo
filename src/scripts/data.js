@@ -31,10 +31,11 @@ export function loadData() {
     const dryData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
     const data = {};
 
-    for(let key in dryData) {
-        const topic = new Topic(dryData[key].title, dryData[key].description);
+    for(let topicKey in dryData) {
+        const topic = new Topic(dryData[topicKey].title, dryData[topicKey].description);
 
-        for(const dryTodo in dryData[key].todos) {
+        for(const todoKey in dryData[topicKey].todos) {
+            const dryTodo = dryData[topicKey].todos[todoKey];
             const todo = new Todo(
                 dryTodo.title,
                 dryTodo.description,
@@ -42,10 +43,10 @@ export function loadData() {
                 dryTodo.priority,
                 dryTodo.isDone
             )
-            topic.addTodo(todo);
+            topic.todos[todoKey] = todo;
         }
 
-        data[key] = topic;
+        data[topicKey] = topic;
     }
     return data;    
 }
