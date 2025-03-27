@@ -2,6 +2,17 @@ import { loadData, saveData } from './data.js';
 import { Topic } from './model.js';
 import { addToLocal, clearTextFields, getAutoID } from './utils';
 
+const ID_TARGETS = (function() {
+    return {
+        MODAL: "#topicModal",
+        FORM: "#topicForm",
+        TITLE: "#topicTitle",
+        DESC: "#topicDesc",
+        OPEN_BUTTON: "#openTopic",
+        CLOSE_BUTTON: "#closeTopic",
+    } 
+}) ();
+
 let boundEditListener = null;
 
 export const deleteTopic = (e, id) => {
@@ -13,8 +24,8 @@ export const deleteTopic = (e, id) => {
 }
 
 export const openTopicModalForEdit = (e, id, title, desc) => {
-    const modal = document.querySelector("#topicModal");
-    const form = document.querySelector("#topicForm");
+    const modal = document.querySelector(ID_TARGETS.MODAL);
+    const form = document.querySelector(ID_TARGETS.FORM);
     populateTextFields(title, desc);
     modal.show();
 
@@ -23,16 +34,16 @@ export const openTopicModalForEdit = (e, id, title, desc) => {
 }
 
 const populateTextFields = (title, desc) => {
-    const titleField = document.querySelector("#topicTitle");
-    const descField = document.querySelector("#topicDesc");
+    const titleField = document.querySelector(ID_TARGETS.TITLE);
+    const descField = document.querySelector(ID_TARGETS.DESC);
     titleField.value = title; 
     descField.value = desc;
 }
 
 const submitFormForEdit = (e, id) => {
     console.log(id);
-    const title = document.querySelector("#topicTitle").value;
-    const desc = document.querySelector("#topicDesc").value;
+    const title = document.querySelector(ID_TARGETS.TITLE).value;
+    const desc = document.querySelector(ID_TARGETS.DESC).value;
     
     const data = loadData();
     const topic = data[id];
@@ -44,32 +55,32 @@ const submitFormForEdit = (e, id) => {
 }
 
 const openTopicModal = () => {
-    const modal = document.querySelector("#topicModal");
-    const form = document.querySelector("#topicForm");
+    const modal = document.querySelector(ID_TARGETS.MODAL);
+    const form = document.querySelector(ID_TARGETS.FORM);
     modal.show();
     form.addEventListener("submit", submitForm);
 };
 
 const closeTopicModal = () => {
-    const form = document.querySelector("#topicForm");
-    const modal = document.querySelector("#topicModal");
+    const modal = document.querySelector(ID_TARGETS.MODAL);
+    const form = document.querySelector(ID_TARGETS.FORM);
     removeFormListeners();
     clearTextFields(form);
     modal.close();
 }
 
 const removeFormListeners = () => {
-    const form = document.querySelector("#topicForm");
+    const form = document.querySelector(ID_TARGETS.FORM);
     form.removeEventListener("submit", submitForm);
     form.removeEventListener("submit", boundEditListener);
 }
 
 const submitForm = (e) => {
-    const form = document.querySelector("#topicForm");
+    const form = document.querySelector(ID_TARGETS.FORM);
     // e.preventDefault();
 
-    const title = document.querySelector("#topicTitle").value;
-    const desc = document.querySelector("#topicDesc").value;
+    const title = document.querySelector(ID_TARGETS.TITLE).value;
+    const desc = document.querySelector(ID_TARGETS.DESC).value;
     
     const topic = new Topic(title, desc);
     const id = getAutoID();
@@ -82,9 +93,9 @@ const submitForm = (e) => {
 
 
 export function createTopicListeners() {
-    const openTopicBtn = document.querySelector("#openTopic");
-    openTopicBtn.addEventListener("click", openTopicModal)
+    const openBtn = document.querySelector(ID_TARGETS.OPEN_BUTTON);
+    openBtn.addEventListener("click", openTopicModal)
 
-    const closeTopicBtn = document.querySelector("#closeTopic");
-    closeTopicBtn.addEventListener("click", closeTopicModal);
+    const closeBtn = document.querySelector(ID_TARGETS.CLOSE_BUTTON);
+    closeBtn.addEventListener("click", closeTopicModal);
 }
