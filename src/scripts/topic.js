@@ -62,18 +62,16 @@ const submitForm = (e) => {
 
     const title = document.querySelector("#topicTitle").value;
     const desc = document.querySelector("#topicDesc").value;
-    createTopic(title, desc);
-    clearTextFields(form);
-
-    closeTopicModal();
-}
-
-const createTopic = (title, desc) => {
+    
     const topic = new Topic(title, desc);
     const id = getAutoID();
 
     addToLocal(id, topic);
-}   
+
+    clearTextFields(form);
+    closeTopicModal();
+}
+
 
 export function createTopicListeners() {
     const openTopicBtn = document.querySelector("#openTopic");
