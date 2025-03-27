@@ -21,6 +21,14 @@ export const submitForm = (topicKey) => {
     form.removeEventListener("submit", boundAddListener)
 }
 
+export const deleteTodo = (topicKey, todoKey) => {
+    const data = loadData();
+    delete data[topicKey].todos[todoKey];
+    saveData(data);
+    location.reload();
+    return false;
+}
+
 export const openTodoModal = (topicKey) => {
     const modal = document.querySelector("#todoModal");
     const form = document.querySelector("#todoForm");
@@ -30,6 +38,7 @@ export const openTodoModal = (topicKey) => {
     form.addEventListener("submit", boundAddListener);
     modal.show();
 }
+
 
 const closeTodoModal = () => {
     const form = document.querySelector("#todoForm");

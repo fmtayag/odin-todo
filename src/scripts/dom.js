@@ -1,6 +1,6 @@
 import { loadData } from "./data";
 import { deleteTopic, openTopicModalForEdit } from "./topic";
-import { openTodoModal } from "./todo";
+import { deleteTodo, openTodoModal } from "./todo";
 import { createButton } from "./utils";
 
 const listTodos = (topicKey, topic) => {
@@ -25,6 +25,10 @@ const listTodos = (topicKey, topic) => {
 
         const listItem = document.createElement("li");
         listItem.textContent = todo.title;
+
+        const deleteButton = createButton("Delete", () => deleteTodo(topicKey, todoKey));
+        listItem.appendChild(deleteButton);
+
         list.appendChild(listItem);
     }
 }
