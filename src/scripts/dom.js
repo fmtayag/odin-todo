@@ -5,7 +5,9 @@ import { createButton } from "./utils";
 
 const listTodos = (topicKey, topic) => {
     const header = document.querySelector("#currentTopic");
+    const description = document.querySelector("#currentTopicDescription");
     header.textContent = topic.title;
+    description.textContent = topic.description;
 
     /* Create button for opening todo modal */
     const buttonHolder = document.querySelector("#buttonHolder");
