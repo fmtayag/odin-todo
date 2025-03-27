@@ -3,6 +3,41 @@ import { Todo } from "./model";
 import { getAutoID } from "./utils";
 
 let boundAddListener = null;
+let boundEditListener = null;
+
+export const openTodoModalForEdit = (topicKey, todoKey) => {
+    const modal = document.querySelector("#todoModal");
+    const form = document.querySelector("#todoForm");
+    modal.show();
+    populateInputs(topicKey, todoKey);
+
+    boundAddListener = submitForm.bind(null, topicKey, todoKey);
+    form.addEventListener("submit", boundEditListener);
+}
+
+const submitFormForEdit = (topicKey, todoKey) => {
+    console.log(topicKey, todoKey);
+}
+
+const populateInputs = (topicKey, todoKey) => {
+    const data = loadData();
+    const todo = data[topicKey].todos[todoKey];
+
+    const titleField = document.querySelector("#todoTitle");
+    const descField = document.querySelector("#todoDesc");
+    const dueField = document.querySelector("#todoDue");
+    const prioritySelect = document.querySelector("#todoPriority");
+    const isDoneCheckbox = document.querySelector("#todoDone");
+
+    console.log("Hello");
+    console.log(todo);
+
+    titleField.value = todo.title;
+    descField.value = todo.description;
+    dueField.value = todo.dueDate.toISOString().substring(0, 10);
+    prioritySelect.value = todo.priority;
+    isDoneCheckbox.checked = todo.isDone;
+}
 
 export const submitForm = (topicKey) => {
     const form = document.querySelector("#todoForm");
@@ -43,6 +78,7 @@ export const openTodoModal = (topicKey) => {
 const closeTodoModal = () => {
     const form = document.querySelector("#todoForm");
     form.removeEventListener("submit", boundAddListener);
+    form.removeEventListener("submit", boundEditListener);
 
     const modal = document.querySelector("#todoModal");
     modal.close();
