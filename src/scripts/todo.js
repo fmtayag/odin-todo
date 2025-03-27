@@ -11,12 +11,27 @@ export const openTodoModalForEdit = (topicKey, todoKey) => {
     modal.show();
     populateInputs(topicKey, todoKey);
 
-    boundAddListener = submitForm.bind(null, topicKey, todoKey);
+    boundEditListener = submitFormForEdit.bind(null, topicKey, todoKey);
     form.addEventListener("submit", boundEditListener);
 }
 
 const submitFormForEdit = (topicKey, todoKey) => {
-    console.log(topicKey, todoKey);
+    const title = document.querySelector("#todoTitle").value;
+    const desc = document.querySelector("#todoDesc").value;
+    const due = new Date(document.querySelector("#todoDue").value);
+    const priority = document.querySelector("#todoPriority").value;
+    const isDone = document.querySelector("#todoDone").checked; 
+
+    const data = loadData();
+
+    const todo = data[topicKey].todos[todoKey];
+    todo.title = title;
+    todo.description = desc;
+    todo.dueDate = due; 
+    todo.priority = priority;
+    todo.isDone = isDone;
+    
+    saveData(data);
 }
 
 const populateInputs = (topicKey, todoKey) => {
@@ -60,6 +75,7 @@ export const deleteTodo = (topicKey, todoKey) => {
     const data = loadData();
     delete data[topicKey].todos[todoKey];
     saveData(data);
+
     location.reload();
     return false;
 }
@@ -67,10 +83,13 @@ export const deleteTodo = (topicKey, todoKey) => {
 export const openTodoModal = (topicKey) => {
     const modal = document.querySelector("#todoModal");
     const form = document.querySelector("#todoForm");
+
     const dateField = document.querySelector("#todoDue");
     dateField.value = new Date().toISOString().substring(0, 10);
+
     boundAddListener = submitForm.bind(null, topicKey);
     form.addEventListener("submit", boundAddListener);
+
     modal.show();
 }
 
