@@ -29,7 +29,7 @@ const submitFormForEdit = (e, id) => {
     const data = loadData();
     const topic = data[id];
     topic.title = title;
-    topic.desc = desc;
+    topic.description = desc;
     addToLocal(id, topic);
 
     closeTopicModal();
