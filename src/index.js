@@ -9,7 +9,6 @@ firstSetup();
 createTopicListeners();
 createTodoListeners();
 
-const form = document.querySelector("#topicForm");
 listTopics();
 openDefaultTopic();
 
